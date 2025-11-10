@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pleyr Parent User Journey</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 40px 20px;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 60px 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1.3em;
+            opacity: 0.95;
+        }
+
+        .content {
+            padding: 60px 40px;
+        }
+
+        .stage {
+            margin-bottom: 60px;
+            position: relative;
+        }
+
+        .stage-title {
+            font-size: 1.8em;
+            color: #667eea;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .stage-number {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.4em;
+        }
+
+        .card {
+            background: #f8f9ff;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 20px;
+            border-left: 5px solid #667eea;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.2);
+        }
+
+        .card h3 {
+            color: #764ba2;
+            margin-bottom: 15px;
+            font-size: 1.4em;
+        }
+
+        .form-field {
+            background: white;
+            border: 2px solid #e0e7ff;
+            border-radius: 10px;
+            padding: 12px 15px;
+            margin-bottom: 15px;
+            display: block;
+            width: 100%;
+            font-size: 1em;
+        }
+
+        .button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 10px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            display: inline-block;
+            margin: 10px 10px 0 0;
+        }
+
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .button-secondary {
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+
+        .radio-group {
+            margin: 20px 0;
+        }
+
+        .radio-option {
+            background: white;
+            border: 2px solid #e0e7ff;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .radio-option:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+
+        .radio-option.selected {
+            border-color: #667eea;
+            background: #f0f4ff;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.2);
+        }
+
+        .radio-circle {
+            width: 24px;
+            height: 24px;
+            border: 3px solid #cbd5e0;
+            border-radius: 50%;
+            position: relative;
+        }
+
+        .selected .radio-circle {
+            border-color: #667eea;
+        }
+
+        .selected .radio-circle::after {
+            content: '';
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: #667eea;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .flow-arrow {
+            text-align: center;
+            color: #667eea;
+            font-size: 2em;
+            margin: 30px 0;
+        }
+
+        .split-path {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .path-card {
+            background: linear-gradient(135deg, #f8f9ff 0%, #e0e7ff 100%);
+            border-radius: 15px;
+            padding: 30px;
+            border: 3px solid #667eea;
+        }
+
+        .path-label {
+            background: #667eea;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            display: inline-block;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .dashboard-preview {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            border: 2px solid #e0e7ff;
+            margin-top: 20px;
+        }
+
+        .player-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 25px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .player-avatar {
+            width: 80px;
+            height: 80px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+            color: #667eea;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        .status-unverified {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .status-verified {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .feature-item {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            border: 2px solid #e0e7ff;
+            text-align: center;
+        }
+
+        .feature-icon {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .checkmark {
+            color: #10b981;
+        }
+
+        .crossmark {
+            color: #ef4444;
+        }
+
+        .info-box {
+            background: #eff6ff;
+            border-left: 4px solid #3b82f6;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .info-box strong {
+            color: #1e40af;
+        }
+
+        .posts-preview {
+            background: white;
+            border: 2px solid #e0e7ff;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .post-item {
+            border-bottom: 1px solid #e0e7ff;
+            padding: 15px 0;
+        }
+
+        .post-item:last-child {
+            border-bottom: none;
+        }
+
+        .post-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .post-avatar {
+            width: 40px;
+            height: 40px;
+            background: #e0e7ff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #667eea;
+        }
+
+        .widget-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .widget {
+            background: white;
+            border: 2px solid #e0e7ff;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .widget h4 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .split-path {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .content {
+                padding: 30px 20px;
+            }
+        }
+
+        .lock-icon {
+            color: #667eea;
+            font-size: 1.2em;
+            margin-right: 8px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #94a3b8;
+        }
+
+        .empty-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏆 Pleyr Parent User Journey</h1>
+            <p>From Registration to Active Engagement</p>
+        </div>
+
+        <div class="content">
+            <!-- ENTRY POINT -->
+            <div class="stage">
+                <div class="stage-title">
+                    <div class="stage-number">1</div>
+                    <span>Entry Point</span>
+                </div>
+                <div class="card">
+                    <h3>Welcome to Pleyr</h3>
+                    <p>Parent hears about Pleyr → Visits pleyr.com</p>
+                    <button class="button">Sign Up</button>
+                </div>
+            </div>
+
+            <div class="flow-arrow">↓</div>
+
+            <!-- REGISTRATION -->
+            <div class="stage">
+                <div class="stage-title">
+                    <div class="stage-number">2</div>
+                    <span>Registration & Verification</span>
+                </div>
+                <div class="card">
+                    <h3>Create Your Account</h3>
+                    <input type="email" class="form-field" placeholder="Email address">
+                    <input type="password" class="form-field" placeholder="Password">
+                    <input type="date" class="form-field" placeholder="Date of Birth">
+                    <div class="info-box">
+                        <strong>📧 Verification Required:</strong> Check your email and click the verification link to continue
+                    </div>
+                    <button class="button">Create Account</button>
+                </div>
+            </div>
+
+            <div class="flow-arrow">↓</div>
+
+            <!-- ROLE SELECTION -->
+            <div class="stage">
+                <div class="stage-title">
+                    <div class="stage-number">3</div>
+                    <span>Role Selection</span>
+                </div>
+                <div class="card">
+                    <h3>What type of user are you?</h3>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <div class="radio-circle"></div>
+                            <div>
+                                <strong>Player</strong> (I'm an athlete)
+                            </div>
+                        </div>
+                        <div class="radio-option selected">
+                            <div class="radio-circle"></div>
+                            <div>
+                                <strong>Parent/Guardian</strong>
+                            </div>
+                        </div>
+                        <div class="radio-option">
+                            <div class="radio-circle"></div>
+                            <div>
+                                <strong>Coach/Team Manager</strong> <em>(Coming Soon)</em>
+                            </div>
+                        </div>
+                        <div class="radio-option">
+                            <div class="radio-circle"></div>
+                            <div>
+                                <strong>Supporter</strong> <em>(Coming Soon)</em>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="info-box">
+                        <strong>Note:</strong> Supporter = Family, friends, spectators
+                    </div>
+                    <button class="button">Continue as Parent</button>
+                </div>
+            </div>
+
+            <div class="flow-arrow">↓</div>
+
+            <!-- PARENT ONBOARDING -->
+            <div class="stage">
+                <div class="stage-title">
+                    <div class="stage-number">4</div>
+                    <span>Parent Onboarding Wizard</span>
+                </div>
+                
+                <div class="card">
+                    <h3>Step 1: Parent Information</h3>
+                    <input type="text" class="form-field" placeholder="Full Name">
+                    <div style="margin: 15px 0;">
+                        <label style="display: block; margin-bottom: 10px; color: #64748b;">Upload Photo (Optional):</label>
+                        <button class="button button-secondary">Choose Photo</button>
+                    </div>
+                    <button class="button">Next</button>
+                </div>
+
+                <div class="card">
+                    <h3>Step 2: Add Your Child(ren)</h3>
+                    <input type="text" class="form-field" placeholder="Child's Full Name">
+                    <input type="date" class="form-field" placeholder="Child's Date of Birth">
+                    <input type="email" class="form-field" placeholder="Child's Email">
+                    
+                    <div class="info-box">
+                        <strong><span class="lock-icon">🔒</span>Secure Search:</strong> This protects your child's privacy and ensures only real parents can connect. All three fields must match exactly.
+                    </div>
+                    <button class="button">Search for Player</button>
+                </div>
+            </div>
+
+            <div class="flow-arrow">↓</div>
+
+            <!-- PATH SPLIT -->
+            <div class="stage">
+                <div class="stage-title">
+                    <div class="stage-number">5</div>
+                    <span>Two Possible Paths</span>
+                </div>
+
+                <div class="split-path">
+                    <!-- PATH A -->
+                    <div class="path-card">
+                        <div class="path-label">PATH A</div>
+                        <h3 style="color: #764ba2; margin-bottom: 15px;">Child Already on Pleyr</h3>
+                        <p style="margin-bottom: 20px;">Child exists on platform - needs to approve parent connection</p>
+                        
+                        <div class="info-box">
+                            <strong>✉️ We found your athlete!</strong><br><br>
+                            Parent-child Approval Request sent to: <strong>Diego</strong><br><br>
+                            We'll notify you when Diego approves you as their parent/guardian!
+                        </div>
+
+                        <div style="margin-top: 20px;">
+                            <button class="button">+ Add Another Child</button>
+                            <button class="button button-secondary">Continue</button>
+                        </div>
+
+                        <div class="card" style="margin-top: 20px; background: #fef3c7; border-color: #f59e0b;">
+                            <h4 style="color: #92400e;">🎉 Welcome to Pleyr!</h4>
+                            <p style="color: #92400e; margin: 15px 0;">While waiting for Diego to approve you:</p>
+                            <ul style="color: #92400e; list-style-position: inside;">
+                                <li>Upload game videos</li>
+                                <li>Create custom player cards</li>
+                                <li>Explore the platform</li>
+                            </ul>
+                            <button class="button" style="margin-top: 15px;">Start by Uploading a Video</button>
+                        </div>
+                    </div>
+
+                    <!-- PATH B -->
+                    <div class="path-card">
+                        <div class="path-label">PATH B</div>
+                        <h3 style="color: #764ba2; margin-bottom: 15px;">Child Not Yet on Pleyr</h3>
+                        <p style="margin-bottom: 20px;">Child hasn't joined - send them an invitation</p>
+                        
+                        <div class="info-box" style="background: #fef3c7; border-color: #f59e0b;">
+                            <strong style="color: #92400e;">⚠️ Child could not be found on Pleyr</strong>
+                        </div>
+
+                        <div style="margin: 20px 0;">
+                            <button class="button">Invite them to Pleyr</button>
+                            <button class="button button-secondary">Try again with different email</button>
+                        </div>
+
+                        <div class="info-box">
+                            <strong>✉️ Invitation sent to:</strong><br>
+                            diego.m@email.com<br><br>
+                            We'll notify you when Diego joins!
+                        </div>
+
+                        <div class="card" style="margin-top: 20px;">
+                            <h4 style="color: #667eea;">Step 3: Pre-fill info for Player (optional)</h4>
+                            <p style="color: #64748b; margin-bottom: 15px;">Help make Diego's onboarding easier</p>
+                            <input type="text" class="form-field" placeholder="Team: Blue Dragons FC">
+                            <input type="text" class="form-field" placeholder="Jersey Number">
+                            <div style="margin: 15px 0;">
+                                <label style="display: block; margin-bottom: 10px;">Position(s):</label>
+                                <label style="display: inline-block; margin-right: 15px;">
+                                    <input type="checkbox" checked> Forward
+                                </label>
+                                <label style="display: inline-block;">
+                                    <input type="checkbox" checked> Midfielder
+                                </label>
+                            </div>
+                            <div class="info-box">
+                                <strong>💡 This info will pre-fill Diego's profile</strong> when they join, but they can change it anytime.
+                            </div>
+                            <button class="button">Save & Continue</button>
+                            <button class="button button-secondary">Skip This Step</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flow-arrow">↓</div>
+
+            <!-- UNVERIFIED PARENT DASHBOARD -->
+            <div class="stage">
+                <div class="stage-title">
+                    <div class="stage-number">6</div>
+                    <span>Unverified Parent Dashboard</span>
+                </div>
+                <div class="card">
+                    <h3>Limited Access While Awaiting Verification</h3>
+                    
+                    <div class="dashboard-preview">
+                        <div class="player-card">
+                            <div class="player-avatar">👤</div>
+                            <div style="flex-grow: 1;">
+                                <h3 style="margin-bottom: 5px;">Diego Martinez</h3>
+                                <p style="margin-bottom: 5px;">Forward • Blue Dragons FC • #7</p>
+                                <span class="status-badge status-unverified">🔔 Awaiting Approval</span>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; gap: 10px; flex-wrap: wrap; margin: 20px 0;">
+                            <button class="button">📤 Upload to Vault</button>
+                            <button class="button button-secondary">⚙️ Settings</button>
+                            <button class="button button-secondary">🛒 Buy Card</button>
+                            <button class="button button-secondary">🔍 Search</button>
+                        </div>
+
+                        <div class="posts-preview">
+                            <h4 style="color: #667eea; margin-bottom: 15px;">Latest Posts</h4>
+                            <div class="empty-state">
+                                <div class="empty-icon">📭</div>
+                                <p>Once Diego approves you, you'll see their posts here.</p>
+                                <button class="button" style="margin-top: 15px;">Resend Request</button>
+                            </div>
+                        </div>
+
+                        <div class="widget-grid">
+                            <div class="widget">
+                                <h4>My Card Designs</h4>
+                                <div style="font-size: 2em; margin: 10px 0;">🎴</div>
+                                <p style="color: #10b981; font-weight: 600;">✅ ACTIVE</p>
+                            </div>
+                            <div class="widget">
+                                <h4>Latest Videos</h4>
+                                <div style="font-size: 2em; margin: 10px 0;">📹</div>
+                                <p style="color: #10b981; font-weight: 600;">✅ ACTIVE</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="feature-grid" style="margin-top: 30px;">
+                        <div class="feature-item">
+                            <div class="feature-icon checkmark">✅</div>
+                            <strong>Upload videos to Vault</strong>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon checkmark">✅</div>
+                            <strong>Create player card designs</strong>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon crossmark">❌</div>
+                            <strong>View Feed (blocked)</strong>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon crossmark">❌</div>
+                            <strong>Search for players</strong>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon crossmark">❌</div>
+                            <strong>Collect players</strong>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon crossmark">❌</div>
+                            <strong>See social content</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flow-arrow">↓</div>
+            <div style="text-align: center; margin: 40px 0; padding: 30px; background: #f0f4ff; border-radius: 15px;">
+                <h3 style="color: #667eea; margin-bottom: 15px;">⏳ Time Passes...</h3>
+                <p style="font-size: 1.1em; color: #64748b;">Child approves connection OR joins platform and completes onboarding</p>
+            </div>
+            <div class="flow-arrow">↓</div>
+
+            <!-- VERIFIED PARENT DASHBOARD -->
+            <div class="stage">
+                <div class="stage-title">
+                    <div class="stage-number">7</div>
+                    <span>Verified Parent Dashboard</span>
+                </div>
+                <div class="card">
+                    <h3>🎉 Full Access Unlocked!</h3>
+                    
+                    <div class="dashboard-preview">
+                        <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 25px;">
+                            <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.8em;">👤</div>
+                            <div>
+                                <h3 style="color: #667eea;">Welcome Martina!</h3>
+                                <p style="color: #64748b;">Parent Account</p>
+                            </div>
+                        </div>
+
+                        <h4 style="color: #667eea; margin-bottom: 15px;">Your Athletes:</h4>
+                        <div class="player-card">
+                            <div class="player-avatar">🎴</div>
+                            <div style="flex-grow: 1;">
+                                <h3 style="margin-bottom: 5px;">Diego Martinez</h3>
+                                <p style="margin-bottom: 5px;">Forward • Blue Dragons FC • #7 • Goals: 12</p>
+                                <p style="font-size: 0.9em; opacity: 0.9;">📍 Lincoln Park • 🎂 Age 12</p>
+                                <span class="status-badge status-verified">✅ Verified</span>
+                            </div>
+                            <button class="button button-secondary">View Full Profile</button>
+                        </div>
+
+                        <div style="display: flex; gap: 10px; flex-wrap: wrap; margin: 20px 0;">
+                            <button class="button">📤 Upload</button>
+                            <button class="button button-secondary">⚙️ Settings</button>
+                            <button class="button button-secondary">🛒 Buy Card</button>
+                            <button class="button button-secondary">🔍 Search</button>
+                        </div>
+
+                        <div class="posts-preview">
+                            <h4 style="color: #667eea; margin-bottom: 15px;">Latest Posts (from Diego)</h4>
+                            
+                            <div class="post-item">
+                                <div class="post-header">
+                                    <div class="post-avatar">👤</div>
+                                    <div>
+                                        <strong>Diego Martinez</strong>
+                                        <span style="color: #94a3b8; font-size: 0.9em;"> • 2h ago</span>
+                                    </div>
+                                </div>
+                                <p style="margin-bottom: 10px;">"Great win today! ⚽️"</p>
+                                <div style="background: #f1f5f9; height: 100px; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #94a3b8; margin-bottom: 10px;">
+                                    [Video thumbnail]
+                                </div>
+                                <div style="display: flex; gap: 20px; color: #64748b; font-size: 0.95em;">
+                                    <span>❤️ 24 likes</span>
+                                    <span>💬 5 comments</span>
+                                    <span>↗️ Share</span>
+                                </div>
+                            </div>
+
+                            <div class="post-item">
+                                <div class="post-header">
+                                    <div class="post-avatar">👤</div>
+                                    <div>
+                                        <strong>Alex Chen</strong>
+                                        <span style="color: #94a3b8; font-size: 0.9em;"> • 5h ago</span>
+                                        <div style="font-size: 0.85em; color: #94a3b8;">Teammate</div>
+                                    </div>
+                                </div>
+                                <p style="margin-bottom: 10px;">"Training hard for playoffs 💪"</p>
+                                <div style="background: #f1f5f9; height: 100px; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #94a3b8; margin-bottom: 10px;">
+                                    [Image]
+                                </div>
+                                <div style="display: flex; gap: 20px; color: #64748b; font-size: 0.95em;">
+                                    <span>❤️ 18 likes</span>
+                                    <span>💬 3 comments</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="widget-grid">
+                            <div class="widget">
+                                <h4>My Card Designs</h4>
+                                <div style="font-size: 2em; margin: 10px 0;">🎴</div>
+                                <p style="color: #64748b;">3 designs saved</p>
+                            </div>
+                            <div class="widget">
+                                <h4>Card Collection</h4>
+                                <div style="font-size: 2em; margin: 10px 0;">🏆</div>
+                                <p style="color: #64748b;">12 players</p>
+                            </div>
+                        </div>
+
+                        <div style="background: white; border: 2px solid #e0e7ff; border-radius: 10px; padding: 20px; margin-top: 20px;">
+                            <h4 style="color: #667eea; margin-bottom: 15px;">Latest Videos from Vault</h4>
+                            <div style="background: #f8f9ff; padding: 15px; border-radius: 8px; margin-bottom: 10px;">
+                                📹 Game vs Red Hawks - Saturday
+                            </div>
+                            <div style="background: #f8f9ff; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                                📹 Training session - Thursday
+                            </div>
+                            <button class="button button-secondary">View All Videos</button>
+                        </div>
+                    </div>
+
+                    <div class="feature-grid" style="margin-top: 30px;">
+                        <div class="feature-item">
+                            <div class="feature-icon checkmark">✅</div>
+                            <strong>View Feed</strong>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon checkmark">✅</div>
+                            <strong>Like & comment on posts</strong>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon checkmark">✅</div>
+                            <strong>Search for players</strong>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon checkmark">✅</div>
+                            <strong>Collect/follow players</strong>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon checkmark">✅</div>
+                            <strong>Upload videos</strong>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon checkmark">✅</div>
+                            <strong>Create card designs</strong>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon checkmark">✅</div>
+                            <strong>Order physical cards</strong>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon checkmark">✅</div>
+                            <strong>Access team videos</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- KEY PHILOSOPHY -->
+            <div class="stage" style="margin-top: 60px;">
+                <div class="card" style="background: linear-gradient(135deg, #f0f4ff 0%, #e0e7ff 100%); border-color: #667eea;">
+                    <h2 style="color: #764ba2; margin-bottom: 25px; text-align: center;">Platform Philosophy</h2>
+                    <h3 style="text-align: center; color: #667eea; margin-bottom: 30px;">"Athlete Ownership"</h3>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 25px;">
+                        <div style="background: white; padding: 25px; border-radius: 10px;">
+                            <h4 style="color: #667eea; margin-bottom: 15px;">👦 Athletes (In Control)</h4>
+                            <ul style="list-style-position: inside; color: #64748b;">
+                                <li>Profile visibility</li>
+                                <li>Post privacy</li>
+                                <li>Who follows them</li>
+                                <li>Card sharing</li>
+                                <li>Parent access</li>
+                            </ul>
+                        </div>
+                        <div style="background: white; padding: 25px; border-radius: 10px;">
+                            <h4 style="color: #667eea; margin-bottom: 15px;">👨‍👩‍👧 Parents (Supporting)</h4>
+                            <ul style="list-style-position: inside; color: #64748b;">
+                                <li>Game footage</li>
+                                <li>Team coordination</li>
+                                <li>Physical cards</li>
+                                <li>Community support</li>
+                                <li>Video uploads</li>
+                            </ul>
+                        </div>
+                        <div style="background: white; padding: 25px; border-radius: 10px;">
+                            <h4 style="color: #667eea; margin-bottom: 15px;">⚖️ Balance (Both Win)</h4>
+                            <p style="color: #64748b;">Parents contribute valuable content, while athletes maintain control of their digital presence and narrative.</p>
+                        </div>
+                    </div>
+
+                    <div class="info-box" style="margin-top: 30px; background: white;">
+                        <strong style="color: #667eea;">🎯 Reduced Friction Workflow:</strong><br><br>
+                        Parent uploads video → Appears in kid's vault → Kid clips highlights → Kid posts to feed → Kid controls narrative
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>
