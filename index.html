@@ -4,7 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pleyr Parent User Journey</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            /* Primary Colors */
+            --primary-bg: #001d2e;
+            --secondary-bg: #00253A;
+            --sky-blue: #00B6ED;
+            --bright-blue: #00C5F4;
+            
+            /* Text Colors */
+            --primary-text: #FDFEFF;
+            --secondary-text: #B1B5B8;
+            --settings-gray: #A8A9AD;
+            --line-at-base: #11729C;
+            
+            /* System Colors */
+            --success-green: #43a047;
+            --destructive-red: #DA393B;
+            --warning-yellow: #B09E03;
+            
+            /* Component Colors */
+            --card-bg: #00253A;
+            --card-border: rgba(0, 182, 237, 0.2);
+            --input-border: rgba(0, 182, 237, 0.2);
+            --input-focus: #00B6ED;
+            
+            /* Typography */
+            --font-heading: 'Vina Sans', sans-serif;
+            --font-body: 'Open Sans', sans-serif;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -12,38 +44,42 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: var(--font-body);
+            background: var(--primary-bg);
+            color: var(--primary-text);
             padding: 40px 20px;
             line-height: 1.6;
-            color: #333;
+            min-height: 100vh;
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            background: var(--secondary-bg);
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
             overflow: hidden;
         }
 
         .header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
+            background: var(--secondary-bg);
+            color: var(--primary-text);
             padding: 60px 40px;
             text-align: center;
+            border-bottom: 1px solid var(--line-at-base);
         }
 
         .header h1 {
+            font-family: var(--font-heading);
             font-size: 3em;
             margin-bottom: 10px;
-            font-weight: 700;
+            font-weight: 400;
+            color: var(--bright-blue);
         }
 
         .header p {
             font-size: 1.3em;
-            opacity: 0.95;
+            color: var(--secondary-text);
         }
 
         .content {
@@ -57,19 +93,20 @@
 
         .stage-title {
             font-size: 1.8em;
-            color: #667eea;
+            color: var(--sky-blue);
             margin-bottom: 30px;
             display: flex;
             align-items: center;
             gap: 15px;
+            font-weight: 600;
         }
 
         .stage-number {
             width: 50px;
             height: 50px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border-radius: 50%;
+            background: var(--bright-blue);
+            color: var(--primary-bg);
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -78,60 +115,85 @@
         }
 
         .card {
-            background: #f8f9ff;
-            border-radius: 15px;
+            background: var(--card-bg);
+            border-radius: 8px;
             padding: 30px;
             margin-bottom: 20px;
-            border-left: 5px solid #667eea;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.1);
+            border: 1px solid var(--card-border);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
         .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+            border-color: var(--sky-blue);
         }
 
         .card h3 {
-            color: #764ba2;
+            color: var(--bright-blue);
             margin-bottom: 15px;
             font-size: 1.4em;
+            font-weight: 600;
         }
 
         .form-field {
-            background: white;
-            border: 2px solid #e0e7ff;
-            border-radius: 10px;
+            background: transparent;
+            border: 1px solid var(--input-border);
+            border-radius: 6px;
             padding: 12px 15px;
             margin-bottom: 15px;
             display: block;
             width: 100%;
             font-size: 1em;
+            color: var(--primary-text);
+            font-family: var(--font-body);
+            transition: border-color 0.3s ease;
+        }
+
+        .form-field:focus {
+            outline: none;
+            border-color: var(--input-focus);
+            box-shadow: 0 0 0 2px rgba(0, 182, 237, 0.1);
+        }
+
+        .form-field::placeholder {
+            color: var(--settings-gray);
         }
 
         .button {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
+            background: var(--bright-blue);
+            color: var(--primary-bg);
             border: none;
-            padding: 15px 40px;
-            border-radius: 10px;
-            font-size: 1.1em;
+            padding: 12px 32px;
+            border-radius: 6px;
+            font-size: 1em;
             font-weight: 600;
             cursor: pointer;
             transition: transform 0.2s ease, box-shadow 0.2s ease;
             display: inline-block;
             margin: 10px 10px 0 0;
+            font-family: var(--font-body);
         }
 
         .button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 197, 244, 0.3);
+        }
+
+        .button:active {
+            transform: translateY(0);
         }
 
         .button-secondary {
-            background: white;
-            color: #667eea;
-            border: 2px solid #667eea;
+            background: transparent;
+            color: var(--sky-blue);
+            border: 1px solid var(--sky-blue);
+        }
+
+        .button-secondary:hover {
+            background: rgba(0, 182, 237, 0.1);
+            box-shadow: 0 4px 12px rgba(0, 182, 237, 0.2);
         }
 
         .radio-group {
@@ -139,9 +201,9 @@
         }
 
         .radio-option {
-            background: white;
-            border: 2px solid #e0e7ff;
-            border-radius: 10px;
+            background: var(--card-bg);
+            border: 1px solid var(--input-border);
+            border-radius: 6px;
             padding: 20px;
             margin-bottom: 15px;
             cursor: pointer;
@@ -152,26 +214,26 @@
         }
 
         .radio-option:hover {
-            border-color: #667eea;
-            background: #f8f9ff;
+            border-color: var(--sky-blue);
+            background: rgba(0, 182, 237, 0.05);
         }
 
         .radio-option.selected {
-            border-color: #667eea;
-            background: #f0f4ff;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.2);
+            border-color: var(--sky-blue);
+            background: rgba(0, 182, 237, 0.1);
+            box-shadow: 0 4px 15px rgba(0, 182, 237, 0.2);
         }
 
         .radio-circle {
             width: 24px;
             height: 24px;
-            border: 3px solid #cbd5e0;
+            border: 2px solid var(--settings-gray);
             border-radius: 50%;
             position: relative;
         }
 
         .selected .radio-circle {
-            border-color: #667eea;
+            border-color: var(--sky-blue);
         }
 
         .selected .radio-circle::after {
@@ -179,7 +241,7 @@
             position: absolute;
             width: 12px;
             height: 12px;
-            background: #667eea;
+            background: var(--sky-blue);
             border-radius: 50%;
             top: 50%;
             left: 50%;
@@ -188,7 +250,7 @@
 
         .flow-arrow {
             text-align: center;
-            color: #667eea;
+            color: var(--sky-blue);
             font-size: 2em;
             margin: 30px 0;
         }
@@ -201,15 +263,15 @@
         }
 
         .path-card {
-            background: linear-gradient(135deg, #f8f9ff 0%, #e0e7ff 100%);
-            border-radius: 15px;
+            background: var(--card-bg);
+            border-radius: 8px;
             padding: 30px;
-            border: 3px solid #667eea;
+            border: 2px solid var(--sky-blue);
         }
 
         .path-label {
-            background: #667eea;
-            color: white;
+            background: var(--sky-blue);
+            color: var(--primary-bg);
             padding: 8px 20px;
             border-radius: 20px;
             display: inline-block;
@@ -218,17 +280,17 @@
         }
 
         .dashboard-preview {
-            background: white;
-            border-radius: 15px;
+            background: var(--card-bg);
+            border-radius: 8px;
             padding: 25px;
-            border: 2px solid #e0e7ff;
+            border: 1px solid var(--card-border);
             margin-top: 20px;
         }
 
         .player-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border-radius: 15px;
+            background: linear-gradient(135deg, var(--sky-blue), var(--bright-blue));
+            color: var(--primary-bg);
+            border-radius: 8px;
             padding: 25px;
             display: flex;
             align-items: center;
@@ -239,13 +301,13 @@
         .player-avatar {
             width: 80px;
             height: 80px;
-            background: white;
+            background: var(--primary-bg);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 2em;
-            color: #667eea;
+            color: var(--sky-blue);
         }
 
         .status-badge {
@@ -258,13 +320,13 @@
         }
 
         .status-unverified {
-            background: #fef3c7;
-            color: #92400e;
+            background: var(--warning-yellow);
+            color: var(--primary-bg);
         }
 
         .status-verified {
-            background: #d1fae5;
-            color: #065f46;
+            background: var(--success-green);
+            color: white;
         }
 
         .feature-grid {
@@ -275,10 +337,10 @@
         }
 
         .feature-item {
-            background: white;
-            border-radius: 10px;
+            background: var(--card-bg);
+            border-radius: 6px;
             padding: 20px;
-            border: 2px solid #e0e7ff;
+            border: 1px solid var(--card-border);
             text-align: center;
         }
 
@@ -288,35 +350,35 @@
         }
 
         .checkmark {
-            color: #10b981;
+            color: var(--success-green);
         }
 
         .crossmark {
-            color: #ef4444;
+            color: var(--destructive-red);
         }
 
         .info-box {
-            background: #eff6ff;
-            border-left: 4px solid #3b82f6;
+            background: rgba(0, 197, 244, 0.1);
+            border-left: 4px solid var(--bright-blue);
             padding: 20px;
-            border-radius: 10px;
+            border-radius: 6px;
             margin: 20px 0;
         }
 
         .info-box strong {
-            color: #1e40af;
+            color: var(--bright-blue);
         }
 
         .posts-preview {
-            background: white;
-            border: 2px solid #e0e7ff;
-            border-radius: 10px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 6px;
             padding: 20px;
             margin-top: 20px;
         }
 
         .post-item {
-            border-bottom: 1px solid #e0e7ff;
+            border-bottom: 1px solid var(--line-at-base);
             padding: 15px 0;
         }
 
@@ -334,12 +396,12 @@
         .post-avatar {
             width: 40px;
             height: 40px;
-            background: #e0e7ff;
+            background: rgba(0, 182, 237, 0.1);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #667eea;
+            color: var(--sky-blue);
         }
 
         .widget-grid {
@@ -350,15 +412,15 @@
         }
 
         .widget {
-            background: white;
-            border: 2px solid #e0e7ff;
-            border-radius: 10px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 6px;
             padding: 20px;
             text-align: center;
         }
 
         .widget h4 {
-            color: #667eea;
+            color: var(--sky-blue);
             margin-bottom: 10px;
         }
 
@@ -377,7 +439,7 @@
         }
 
         .lock-icon {
-            color: #667eea;
+            color: var(--sky-blue);
             font-size: 1.2em;
             margin-right: 8px;
         }
@@ -385,12 +447,49 @@
         .empty-state {
             text-align: center;
             padding: 40px;
-            color: #94a3b8;
+            color: var(--settings-gray);
         }
 
         .empty-icon {
             font-size: 3em;
             margin-bottom: 15px;
+        }
+
+        /* Custom checkbox styling */
+        input[type="checkbox"] {
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border: 2px solid var(--input-border);
+            border-radius: 4px;
+            background: transparent;
+            cursor: pointer;
+            position: relative;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+
+        input[type="checkbox"]:checked {
+            background: var(--sky-blue);
+            border-color: var(--sky-blue);
+        }
+
+        input[type="checkbox"]:checked::after {
+            content: '✓';
+            position: absolute;
+            top: -2px;
+            left: 2px;
+            color: var(--primary-bg);
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        label {
+            color: var(--secondary-text);
+            display: inline-flex;
+            align-items: center;
+            margin-right: 20px;
+            margin-bottom: 10px;
         }
     </style>
 </head>
@@ -491,7 +590,7 @@
                     <h3>Step 1: Parent Information</h3>
                     <input type="text" class="form-field" placeholder="Full Name">
                     <div style="margin: 15px 0;">
-                        <label style="display: block; margin-bottom: 10px; color: #64748b;">Upload Photo (Optional):</label>
+                        <label style="display: block; margin-bottom: 10px; color: var(--secondary-text);">Upload Photo (Optional):</label>
                         <button class="button button-secondary">Choose Photo</button>
                     </div>
                     <button class="button">Next</button>
@@ -523,7 +622,7 @@
                     <!-- PATH A -->
                     <div class="path-card">
                         <div class="path-label">PATH A</div>
-                        <h3 style="color: #764ba2; margin-bottom: 15px;">Child Already on Pleyr</h3>
+                        <h3 style="color: var(--bright-blue); margin-bottom: 15px;">Child Already on Pleyr</h3>
                         <p style="margin-bottom: 20px;">Child exists on platform - needs to approve parent connection</p>
                         
                         <div class="info-box">
@@ -537,10 +636,10 @@
                             <button class="button button-secondary">Continue</button>
                         </div>
 
-                        <div class="card" style="margin-top: 20px; background: #fef3c7; border-color: #f59e0b;">
-                            <h4 style="color: #92400e;">🎉 Welcome to Pleyr!</h4>
-                            <p style="color: #92400e; margin: 15px 0;">While waiting for Diego to approve you:</p>
-                            <ul style="color: #92400e; list-style-position: inside;">
+                        <div class="card" style="margin-top: 20px; background: rgba(176, 158, 3, 0.1); border-color: var(--warning-yellow);">
+                            <h4 style="color: var(--warning-yellow);">🎉 Welcome to Pleyr!</h4>
+                            <p style="color: var(--secondary-text); margin: 15px 0;">While waiting for Diego to approve you:</p>
+                            <ul style="color: var(--secondary-text); list-style-position: inside;">
                                 <li>Upload game videos</li>
                                 <li>Create custom player cards</li>
                                 <li>Explore the platform</li>
@@ -552,11 +651,11 @@
                     <!-- PATH B -->
                     <div class="path-card">
                         <div class="path-label">PATH B</div>
-                        <h3 style="color: #764ba2; margin-bottom: 15px;">Child Not Yet on Pleyr</h3>
+                        <h3 style="color: var(--bright-blue); margin-bottom: 15px;">Child Not Yet on Pleyr</h3>
                         <p style="margin-bottom: 20px;">Child hasn't joined - send them an invitation</p>
                         
-                        <div class="info-box" style="background: #fef3c7; border-color: #f59e0b;">
-                            <strong style="color: #92400e;">⚠️ Child could not be found on Pleyr</strong>
+                        <div class="info-box" style="background: rgba(176, 158, 3, 0.1); border-color: var(--warning-yellow);">
+                            <strong style="color: var(--warning-yellow);">⚠️ Child could not be found on Pleyr</strong>
                         </div>
 
                         <div style="margin: 20px 0;">
@@ -571,16 +670,16 @@
                         </div>
 
                         <div class="card" style="margin-top: 20px;">
-                            <h4 style="color: #667eea;">Step 3: Pre-fill info for Player (optional)</h4>
-                            <p style="color: #64748b; margin-bottom: 15px;">Help make Diego's onboarding easier</p>
+                            <h4 style="color: var(--sky-blue);">Step 3: Pre-fill info for Player (optional)</h4>
+                            <p style="color: var(--secondary-text); margin-bottom: 15px;">Help make Diego's onboarding easier</p>
                             <input type="text" class="form-field" placeholder="Team: Blue Dragons FC">
                             <input type="text" class="form-field" placeholder="Jersey Number">
                             <div style="margin: 15px 0;">
                                 <label style="display: block; margin-bottom: 10px;">Position(s):</label>
-                                <label style="display: inline-block; margin-right: 15px;">
+                                <label>
                                     <input type="checkbox" checked> Forward
                                 </label>
-                                <label style="display: inline-block;">
+                                <label>
                                     <input type="checkbox" checked> Midfielder
                                 </label>
                             </div>
@@ -623,7 +722,7 @@
                         </div>
 
                         <div class="posts-preview">
-                            <h4 style="color: #667eea; margin-bottom: 15px;">Latest Posts</h4>
+                            <h4 style="color: var(--sky-blue); margin-bottom: 15px;">Latest Posts</h4>
                             <div class="empty-state">
                                 <div class="empty-icon">📭</div>
                                 <p>Once Diego approves you, you'll see their posts here.</p>
@@ -635,12 +734,12 @@
                             <div class="widget">
                                 <h4>My Card Designs</h4>
                                 <div style="font-size: 2em; margin: 10px 0;">🎴</div>
-                                <p style="color: #10b981; font-weight: 600;">✅ ACTIVE</p>
+                                <p style="color: var(--success-green); font-weight: 600;">✅ ACTIVE</p>
                             </div>
                             <div class="widget">
                                 <h4>Latest Videos</h4>
                                 <div style="font-size: 2em; margin: 10px 0;">📹</div>
-                                <p style="color: #10b981; font-weight: 600;">✅ ACTIVE</p>
+                                <p style="color: var(--success-green); font-weight: 600;">✅ ACTIVE</p>
                             </div>
                         </div>
                     </div>
@@ -675,9 +774,9 @@
             </div>
 
             <div class="flow-arrow">↓</div>
-            <div style="text-align: center; margin: 40px 0; padding: 30px; background: #f0f4ff; border-radius: 15px;">
-                <h3 style="color: #667eea; margin-bottom: 15px;">⏳ Time Passes...</h3>
-                <p style="font-size: 1.1em; color: #64748b;">Child approves connection OR joins platform and completes onboarding</p>
+            <div style="text-align: center; margin: 40px 0; padding: 30px; background: rgba(0, 182, 237, 0.1); border-radius: 8px;">
+                <h3 style="color: var(--sky-blue); margin-bottom: 15px;">⏳ Time Passes...</h3>
+                <p style="font-size: 1.1em; color: var(--secondary-text);">Child approves connection OR joins platform and completes onboarding</p>
             </div>
             <div class="flow-arrow">↓</div>
 
@@ -692,14 +791,14 @@
                     
                     <div class="dashboard-preview">
                         <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 25px;">
-                            <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.8em;">👤</div>
+                            <div style="width: 60px; height: 60px; background: linear-gradient(135deg, var(--sky-blue), var(--bright-blue)); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--primary-bg); font-size: 1.8em;">👤</div>
                             <div>
-                                <h3 style="color: #667eea;">Welcome Martina!</h3>
-                                <p style="color: #64748b;">Parent Account</p>
+                                <h3 style="color: var(--sky-blue);">Welcome Martina!</h3>
+                                <p style="color: var(--secondary-text);">Parent Account</p>
                             </div>
                         </div>
 
-                        <h4 style="color: #667eea; margin-bottom: 15px;">Your Athletes:</h4>
+                        <h4 style="color: var(--sky-blue); margin-bottom: 15px;">Your Athletes:</h4>
                         <div class="player-card">
                             <div class="player-avatar">🎴</div>
                             <div style="flex-grow: 1;">
@@ -719,21 +818,21 @@
                         </div>
 
                         <div class="posts-preview">
-                            <h4 style="color: #667eea; margin-bottom: 15px;">Latest Posts (from Diego)</h4>
+                            <h4 style="color: var(--sky-blue); margin-bottom: 15px;">Latest Posts (from Diego)</h4>
                             
                             <div class="post-item">
                                 <div class="post-header">
                                     <div class="post-avatar">👤</div>
                                     <div>
                                         <strong>Diego Martinez</strong>
-                                        <span style="color: #94a3b8; font-size: 0.9em;"> • 2h ago</span>
+                                        <span style="color: var(--settings-gray); font-size: 0.9em;"> • 2h ago</span>
                                     </div>
                                 </div>
                                 <p style="margin-bottom: 10px;">"Great win today! ⚽️"</p>
-                                <div style="background: #f1f5f9; height: 100px; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #94a3b8; margin-bottom: 10px;">
+                                <div style="background: rgba(0, 182, 237, 0.05); height: 100px; border-radius: 6px; display: flex; align-items: center; justify-content: center; color: var(--settings-gray); margin-bottom: 10px;">
                                     [Video thumbnail]
                                 </div>
-                                <div style="display: flex; gap: 20px; color: #64748b; font-size: 0.95em;">
+                                <div style="display: flex; gap: 20px; color: var(--secondary-text); font-size: 0.95em;">
                                     <span>❤️ 24 likes</span>
                                     <span>💬 5 comments</span>
                                     <span>↗️ Share</span>
@@ -745,15 +844,15 @@
                                     <div class="post-avatar">👤</div>
                                     <div>
                                         <strong>Alex Chen</strong>
-                                        <span style="color: #94a3b8; font-size: 0.9em;"> • 5h ago</span>
-                                        <div style="font-size: 0.85em; color: #94a3b8;">Teammate</div>
+                                        <span style="color: var(--settings-gray); font-size: 0.9em;"> • 5h ago</span>
+                                        <div style="font-size: 0.85em; color: var(--settings-gray);">Teammate</div>
                                     </div>
                                 </div>
                                 <p style="margin-bottom: 10px;">"Training hard for playoffs 💪"</p>
-                                <div style="background: #f1f5f9; height: 100px; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #94a3b8; margin-bottom: 10px;">
+                                <div style="background: rgba(0, 182, 237, 0.05); height: 100px; border-radius: 6px; display: flex; align-items: center; justify-content: center; color: var(--settings-gray); margin-bottom: 10px;">
                                     [Image]
                                 </div>
-                                <div style="display: flex; gap: 20px; color: #64748b; font-size: 0.95em;">
+                                <div style="display: flex; gap: 20px; color: var(--secondary-text); font-size: 0.95em;">
                                     <span>❤️ 18 likes</span>
                                     <span>💬 3 comments</span>
                                 </div>
@@ -764,21 +863,21 @@
                             <div class="widget">
                                 <h4>My Card Designs</h4>
                                 <div style="font-size: 2em; margin: 10px 0;">🎴</div>
-                                <p style="color: #64748b;">3 designs saved</p>
+                                <p style="color: var(--secondary-text);">3 designs saved</p>
                             </div>
                             <div class="widget">
                                 <h4>Card Collection</h4>
                                 <div style="font-size: 2em; margin: 10px 0;">🏆</div>
-                                <p style="color: #64748b;">12 players</p>
+                                <p style="color: var(--secondary-text);">12 players</p>
                             </div>
                         </div>
 
-                        <div style="background: white; border: 2px solid #e0e7ff; border-radius: 10px; padding: 20px; margin-top: 20px;">
-                            <h4 style="color: #667eea; margin-bottom: 15px;">Latest Videos from Vault</h4>
-                            <div style="background: #f8f9ff; padding: 15px; border-radius: 8px; margin-bottom: 10px;">
+                        <div style="background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 6px; padding: 20px; margin-top: 20px;">
+                            <h4 style="color: var(--sky-blue); margin-bottom: 15px;">Latest Videos from Vault</h4>
+                            <div style="background: rgba(0, 182, 237, 0.05); padding: 15px; border-radius: 6px; margin-bottom: 10px;">
                                 📹 Game vs Red Hawks - Saturday
                             </div>
-                            <div style="background: #f8f9ff; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                            <div style="background: rgba(0, 182, 237, 0.05); padding: 15px; border-radius: 6px; margin-bottom: 15px;">
                                 📹 Training session - Thursday
                             </div>
                             <button class="button button-secondary">View All Videos</button>
@@ -824,14 +923,14 @@
 
             <!-- KEY PHILOSOPHY -->
             <div class="stage" style="margin-top: 60px;">
-                <div class="card" style="background: linear-gradient(135deg, #f0f4ff 0%, #e0e7ff 100%); border-color: #667eea;">
-                    <h2 style="color: #764ba2; margin-bottom: 25px; text-align: center;">Platform Philosophy</h2>
-                    <h3 style="text-align: center; color: #667eea; margin-bottom: 30px;">"Athlete Ownership"</h3>
+                <div class="card" style="background: rgba(0, 182, 237, 0.05); border-color: var(--sky-blue);">
+                    <h2 style="color: var(--bright-blue); margin-bottom: 25px; text-align: center;">Platform Philosophy</h2>
+                    <h3 style="text-align: center; color: var(--sky-blue); margin-bottom: 30px;">"Athlete Ownership"</h3>
                     
                     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 25px;">
-                        <div style="background: white; padding: 25px; border-radius: 10px;">
-                            <h4 style="color: #667eea; margin-bottom: 15px;">👦 Athletes (In Control)</h4>
-                            <ul style="list-style-position: inside; color: #64748b;">
+                        <div style="background: var(--card-bg); padding: 25px; border-radius: 6px;">
+                            <h4 style="color: var(--sky-blue); margin-bottom: 15px;">👦 Athletes (In Control)</h4>
+                            <ul style="list-style-position: inside; color: var(--secondary-text);">
                                 <li>Profile visibility</li>
                                 <li>Post privacy</li>
                                 <li>Who follows them</li>
@@ -839,9 +938,9 @@
                                 <li>Parent access</li>
                             </ul>
                         </div>
-                        <div style="background: white; padding: 25px; border-radius: 10px;">
-                            <h4 style="color: #667eea; margin-bottom: 15px;">👨‍👩‍👧 Parents (Supporting)</h4>
-                            <ul style="list-style-position: inside; color: #64748b;">
+                        <div style="background: var(--card-bg); padding: 25px; border-radius: 6px;">
+                            <h4 style="color: var(--sky-blue); margin-bottom: 15px;">👨‍👩‍👧 Parents (Supporting)</h4>
+                            <ul style="list-style-position: inside; color: var(--secondary-text);">
                                 <li>Game footage</li>
                                 <li>Team coordination</li>
                                 <li>Physical cards</li>
@@ -849,14 +948,14 @@
                                 <li>Video uploads</li>
                             </ul>
                         </div>
-                        <div style="background: white; padding: 25px; border-radius: 10px;">
-                            <h4 style="color: #667eea; margin-bottom: 15px;">⚖️ Balance (Both Win)</h4>
-                            <p style="color: #64748b;">Parents contribute valuable content, while athletes maintain control of their digital presence and narrative.</p>
+                        <div style="background: var(--card-bg); padding: 25px; border-radius: 6px;">
+                            <h4 style="color: var(--sky-blue); margin-bottom: 15px;">⚖️ Balance (Both Win)</h4>
+                            <p style="color: var(--secondary-text);">Parents contribute valuable content, while athletes maintain control of their digital presence and narrative.</p>
                         </div>
                     </div>
 
-                    <div class="info-box" style="margin-top: 30px; background: white;">
-                        <strong style="color: #667eea;">🎯 Reduced Friction Workflow:</strong><br><br>
+                    <div class="info-box" style="margin-top: 30px; background: var(--card-bg);">
+                        <strong style="color: var(--sky-blue);">🎯 Reduced Friction Workflow:</strong><br><br>
                         Parent uploads video → Appears in kid's vault → Kid clips highlights → Kid posts to feed → Kid controls narrative
                     </div>
                 </div>
